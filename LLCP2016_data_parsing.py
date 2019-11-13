@@ -52,15 +52,22 @@ def get_percentage_breakdown(dictionary):
     total = 0
 
     for value in dictionary.values():
-        total = total + value
+        total = total + int(value)
 
     for key, value in dictionary.items():
-        percentages[key] = (value/total) * 100
+        percentages[key] = (int(value)/total) * 100
 
     return percentages
 
 
-data = read_data("../LLCP2016.asc")
-chronic_column = get_column(data, 111)
-print(get_value_breakdown(chronic_column))
-print(get_percentage_breakdown(get_value_breakdown(chronic_column)))
+def breakdown_column_data(file_path, desired_column):
+    data = read_data(file_path)
+    column = get_column(data, desired_column)
+    value_breakdown = get_value_breakdown(column)
+    percentage_breakdown = get_percentage_breakdown(value_breakdown)
+    return value_breakdown, percentage_breakdown
+
+
+values, percentages = breakdown_column_data("../LLCP2016.asc", 111)
+print(values)
+print(percentages)
